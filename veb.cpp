@@ -46,7 +46,7 @@ public:
 
     ~VEBTree() {};
 
-     inline bool is_empty() const {
+    inline bool is_empty() const {
         return tree_min == NO;
     }
 
