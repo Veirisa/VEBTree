@@ -55,5 +55,6 @@ int main() {
         element += add_value;
     }
     std::cout << "\n(big_tree) min: " << big_tree.getMin() << " max: " << big_tree.getMax();
+    std::cout << "\n";
     return 0;
 }

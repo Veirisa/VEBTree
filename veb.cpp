@@ -13,9 +13,10 @@ private:
 
     static const ull HALF = S / 2;
     static const ull DEG_HALF = (ull)1 << HALF;
+    typedef std::unique_ptr<VEBTree<HALF>> VEBTree_ptr;
 
-    mutable std::unordered_map<ull, VEBTree<HALF>*> children;
-    VEBTree<HALF>* existing;
+    mutable std::unordered_map<ull, VEBTree_ptr> children;
+    VEBTree_ptr existing;
     ull tree_min;
     ull tree_max;
 
@@ -43,16 +44,9 @@ public:
 
     VEBTree() : tree_min(NO), tree_max(), existing(nullptr), children() {};
 
-    ~VEBTree() {
-        if (existing != nullptr) {
-            for (auto it = children.cbegin(); it != children.cend(); ++it) {
-                delete it->second;
-            }
-            delete existing;
-        }
-    }
+    ~VEBTree() {};
 
-    inline bool is_empty() const {
+     inline bool is_empty() const {
         return tree_min == NO;
     }
 
@@ -82,9 +76,9 @@ public:
         }
         ull high_bits = high(x);
         if (!child_in_map(high_bits)) {
-            children[high_bits] = new VEBTree<HALF>();
+            children[high_bits] = VEBTree_ptr(new VEBTree<HALF>());
             if (existing == nullptr) {
-                existing = new VEBTree<HALF>();
+                existing.reset(new VEBTree<HALF>());
             }
         }
         if (children[high_bits]->is_empty()) {
@@ -126,7 +120,6 @@ public:
         if (child_in_map(high_bits)) {
             children[high_bits]->remove(low(x));
             if (children[high_bits]->is_empty()) {
-                delete children[high_bits];
                 children.erase(high_bits);
                 existing->remove(high_bits);
             }
