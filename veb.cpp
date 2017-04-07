@@ -142,11 +142,11 @@ public:
             children[high_bits]->getMax() > low_bits) {
             return create_number(high_bits, children[high_bits]->next(low_bits));
         }
-        ull nextHigh = existing->next(high_bits);
-        if (nextHigh == NO) {
+        ull next_high = existing->next(high_bits);
+        if (next_high == NO) {
             return tree_max;
         }
-        return create_number(nextHigh, children[nextHigh]->getMin());
+        return create_number(next_high, children[next_high]->getMin());
     }
 
     ull prev(ull  x) const {
@@ -165,11 +165,11 @@ public:
             children[high_bits]->getMin() < low_bits) {
             return create_number(high_bits, children[high_bits]->prev(low_bits));
         }
-        ull prevHigh = existing->prev(high_bits);
-        if (prevHigh == NO) {
+        ull prev_high = existing->prev(high_bits);
+        if (prev_high == NO) {
             return tree_min;
         }
-        return create_number(prevHigh, children[prevHigh]->getMax());
+        return create_number(prev_high, children[prev_high]->getMax());
 
     }
 
