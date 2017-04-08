@@ -13,10 +13,11 @@ private:
 
     static const ull HALF = S / 2;
     static const ull DEG_HALF = (ull)1 << HALF;
-    typedef std::unique_ptr<VEBTree<HALF>> VEBTree_ptr;
+    static const ull MAX_VALUE = (S == 64 ? NO : (ull)1 << S) - 1;
+    typedef std::unique_ptr<VEBTree<HALF>> veb_ptr;
 
-    mutable std::unordered_map<ull, VEBTree_ptr> children;
-    VEBTree_ptr existing;
+    mutable std::unordered_map<ull, veb_ptr> children;
+    veb_ptr existing;
     ull tree_min;
     ull tree_max;
 
@@ -51,7 +52,7 @@ public:
     }
 
     void add(ull x) {
-        assert(x != NO);
+        assert(x <= MAX_VALUE);
         if (is_empty()) {
             tree_min = x;
             tree_max = x;
@@ -76,7 +77,7 @@ public:
         }
         ull high_bits = high(x);
         if (!child_in_map(high_bits)) {
-            children[high_bits] = VEBTree_ptr(new VEBTree<HALF>());
+            children[high_bits] = veb_ptr(new VEBTree<HALF>());
             if (existing == nullptr) {
                 existing.reset(new VEBTree<HALF>());
             }
