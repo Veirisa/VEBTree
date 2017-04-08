@@ -7,13 +7,15 @@
 #include <unordered_map>
 #include "veb.h"
 
+const unsigned int MAX_S = 8 * sizeof(ull);
+
 template<unsigned int S>
 class VEBTree: AbstractVEBTree<S> {
 private:
 
     static const ull HALF = S / 2;
     static const ull DEG_HALF = (ull)1 << HALF;
-    static const ull MAX_VALUE = (S == 64 ? NO : (ull)1 << S) - 1;
+    static const ull MAX_VALUE = (S >= MAX_S ? NO : (ull)1 << S) - 1;
     typedef std::unique_ptr<VEBTree<HALF>> veb_ptr;
 
     mutable std::unordered_map<ull, veb_ptr> children;
