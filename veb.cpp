@@ -1,8 +1,4 @@
-#include <utility>
-#include <cstdint>
-#include <cstdio>
-#include <vector>
-#include <iostream>
+#include <memory>
 #include <assert.h>
 #include <unordered_map>
 #include "veb.h"

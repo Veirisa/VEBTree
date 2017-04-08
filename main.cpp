@@ -1,3 +1,4 @@
+#include <iostream>
 #include "veb.cpp"
 
 template <unsigned int S>
