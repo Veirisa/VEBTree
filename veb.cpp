@@ -9,13 +9,14 @@ template<unsigned int S>
 class VEBTree: AbstractVEBTree<S> {
 private:
 
-    static const ull HALF = S / 2;
+    static const unsigned int HALF = S / 2;
     static const ull DEG_HALF = (ull)1 << HALF;
     static const ull MAX_VALUE = (S >= MAX_S ? NO : (ull)1 << S) - 1;
-    typedef std::unique_ptr<VEBTree<HALF>> veb_ptr;
+    typedef std::unique_ptr<VEBTree<HALF>> small_veb_ptr;
+    typedef std::unique_ptr<VEBTree<S - HALF>> big_veb_ptr;
 
-    mutable std::unordered_map<ull, veb_ptr> children;
-    veb_ptr existing;
+    mutable std::unordered_map<ull, small_veb_ptr> children;
+    big_veb_ptr existing;
     ull tree_min;
     ull tree_max;
 
@@ -75,9 +76,9 @@ public:
         }
         ull high_bits = high(x);
         if (!child_in_map(high_bits)) {
-            children[high_bits] = veb_ptr(new VEBTree<HALF>());
+            children[high_bits] = small_veb_ptr(new VEBTree<HALF>());
             if (existing == nullptr) {
-                existing.reset(new VEBTree<HALF>());
+                existing.reset(new VEBTree<S - HALF>());
             }
         }
         if (children[high_bits]->is_empty()) {
