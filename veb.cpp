@@ -88,6 +88,9 @@ public:
     }
 
     void remove(ull  x) {
+        if (is_empty()) {
+            return;
+        }
         bool no_existing = existing_is_null_or_empty();
         if (tree_min == x) {
             if (tree_max == x) {
@@ -102,10 +105,6 @@ public:
             tree_min = x;
         }
         if (tree_max == x) {
-            if (tree_min == x) {
-                tree_min = NO;
-                return;
-            }
             if (no_existing) {
                 tree_max = tree_min;
                 return;
