@@ -1,3 +1,3 @@
 # VEBTree
 
-Дерево ван Эмде Боаса.
+Van Emde Boas Tree.
